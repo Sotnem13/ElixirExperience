@@ -28,4 +28,42 @@ defmodule GeneticAlgorithm do
 
   # %Params
 
+  def main() do
+  end
+
+  def id(x) do
+    x
+  end
+
+
+
+  def expression() do
+    x = {:var, :x}
+    {:-, {:*, x, x}, {:num, 4}}
+  end
+
+  def eval(expression, vars) do
+    expression
+    |> replaceVar(vars)
+    |> eval()
+  end
+
+  def eval(expression) do
+    case expression do
+      {:*, a, b} -> eval(a)*eval(b)
+      {:/, a, b} -> eval(a)/eval(b)
+      {:-, a, b} -> eval(a)-eval(b)
+      {:+, a, b} -> eval(a)+eval(b)
+      {:num, a}  -> a
+    end
+  end
+
+  def replaceVar(expression, vars) do
+    case expression do
+      {:var, x} -> {:num, vars[x]}
+      {op, a, b} -> {op, replaceVar(a, vars), replaceVar(b, vars)}
+      a -> a
+    end
+  end
+
 end
